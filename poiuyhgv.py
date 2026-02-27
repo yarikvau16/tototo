@@ -5,9 +5,9 @@ import random
 from datetime import datetime, timedelta
 from collections import deque
 
-from aiogram import Bot, Dispatcher, types
+from aiogram import Bot, Dispatcher
 from aiogram.filters import Command
-
+from aiogram.types import Message
 
 # =========================
 # ⚙️ НАЛАШТУВАННЯ
@@ -21,7 +21,6 @@ MAX_LENGTH = 1000.0
 MIN_LENGTH = -1000.0
 ADMINS = [857466206]
 
-
 # =========================
 # ⏱ ЧАС
 # =========================
@@ -29,17 +28,14 @@ ADMINS = [857466206]
 def now():
     return datetime.utcnow()
 
-
 def dt_to_str(dt):
     return dt.isoformat() if dt else None
-
 
 def str_to_dt(s):
     try:
         return datetime.fromisoformat(s) if s else None
     except:
         return None
-
 
 # =========================
 # 💾 ЗБЕРЕЖЕННЯ
@@ -78,7 +74,6 @@ def load_storage():
 
     return data
 
-
 def save_storage(db):
     data = {
         "users": {},
@@ -99,7 +94,6 @@ def save_storage(db):
     with open(DATA_FILE, "w", encoding="utf-8") as f:
         json.dump(data, f, indent=2, ensure_ascii=False)
 
-
 # =========================
 # 🎲 РАНДОМ
 # =========================
@@ -107,15 +101,13 @@ def save_storage(db):
 def safe_random_delta():
     return round(sum(random.uniform(-12, 12) for _ in range(5)) / 5, 1)
 
-
 # =========================
 # 🤖 БОТ
 # =========================
 
-bot = Bot(BOT_TOKEN)
+bot = Bot(token=BOT_TOKEN)
 dp = Dispatcher()
 db = load_storage()
-
 
 # =========================
 # 📌 ДОПОМІЖНЕ
@@ -141,20 +133,17 @@ def get_user(user):
 
     return db["users"][uid]
 
-
 def add_chat(chat_id):
     if chat_id not in db["chats"]:
         db["chats"].append(chat_id)
-
 
 # =========================
 # 🚀 КОМАНДИ
 # =========================
 
 @dp.message(Command("start"))
-async def start(msg: types.Message):
+async def start_handler(msg: Message):
     add_chat(msg.chat.id)
-
     await msg.answer(
         "Команди:\n"
         "/pipisabotik — перевірити довжину\n"
@@ -163,18 +152,16 @@ async def start(msg: types.Message):
         "/adminlist — список даних"
     )
 
-
 @dp.message(Command("addyogroup"))
-async def add_group(msg: types.Message):
+async def add_group(msg: Message):
     await msg.answer("Додай бота в групу і дай права адміністратора")
-
 
 # =========================
 # 🍆 ОСНОВНА ЛОГІКА
 # =========================
 
 @dp.message(Command("pipisabotik"))
-async def pipisa(msg: types.Message):
+async def pipisa(msg: Message):
     user = get_user(msg.from_user)
     add_chat(msg.chat.id)
 
@@ -243,13 +230,12 @@ async def pipisa(msg: types.Message):
     await msg.answer(reply)
     save_storage(db)
 
-
 # =========================
 # 👑 АДМІН
 # =========================
 
 @dp.message(Command("admainpussy333"))
-async def admin_send(msg: types.Message):
+async def admin_send(msg: Message):
     if msg.from_user.id not in ADMINS:
         await msg.answer("Тільки адмін")
         return
@@ -268,9 +254,8 @@ async def admin_send(msg: types.Message):
     except Exception as e:
         await msg.answer(str(e))
 
-
 @dp.message(Command("adminlist"))
-async def admin_list(msg: types.Message):
+async def admin_list(msg: Message):
     if msg.from_user.id not in ADMINS:
         return
 
@@ -284,7 +269,6 @@ async def admin_list(msg: types.Message):
 
     await msg.answer(text)
 
-
 # =========================
 # ▶️ ЗАПУСК
 # =========================
@@ -292,7 +276,6 @@ async def admin_list(msg: types.Message):
 async def main():
     print("Bot started")
     await dp.start_polling(bot)
-
 
 if __name__ == "__main__":
     asyncio.run(main())
