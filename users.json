@@ -1,0 +1,38 @@
+{
+  "users": {
+    "1643260711": {
+      "name": "k_Artem01",
+      "length": 4.4,
+      "requests": 1,
+      "streak": 1,
+      "last_growth_time": "2026-02-27T07:19:10.796858",
+      "last_use_time": "2026-02-27T07:19:10.796858",
+      "last_command_time": "2026-02-27T07:19:10.796858",
+      "last_growth_chat": -1002079659281,
+      "messages_last_5h": [
+        "2026-02-27T07:19:10.796858"
+      ],
+      "spam_warnings_sent": 0,
+      "mute_until": null
+    },
+    "6451866588": {
+      "name": "Alternati_b",
+      "length": -2.0,
+      "requests": 1,
+      "streak": 1,
+      "last_growth_time": "2026-02-27T07:19:10.799033",
+      "last_use_time": "2026-02-27T07:19:10.799033",
+      "last_command_time": "2026-02-27T07:19:10.799033",
+      "last_growth_chat": -1002079659281,
+      "messages_last_5h": [
+        "2026-02-27T07:19:10.799033"
+      ],
+      "spam_warnings_sent": 0,
+      "mute_until": null
+    }
+  },
+  "chats": [
+    -1002079659281
+  ],
+  "group_growth_log": {}
+}
